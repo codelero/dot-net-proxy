@@ -19,14 +19,14 @@ namespace WebApiProxy.Controllers
 
             HttpRequestMessage request = HttpContext.Current.Items["MS_HttpRequestMessage"] as HttpRequestMessage;
 
-            var absoluteUri = request.RequestUri.AbsoluteUri;
+            //var absoluteUri = request.RequestUri.AbsoluteUri;
 
-            var routeTemplate = "http://localhost:51804/zendesk/proxy/";
+            //var routeTemplate = "http://localhost:51804/zendesk/proxy/";
 
-            absoluteUri = absoluteUri.Substring(routeTemplate.Length);
+            //absoluteUri = absoluteUri.Substring(routeTemplate.Length);
 
-            //UriBuilder forwardUri = new UriBuilder("https://fitsme1491919531.zendesk.com/api/v2/" + absoluteUri);
-            UriBuilder forwardUri = new UriBuilder("https://api.github.com/users/octocat");
+            UriBuilder forwardUri = new UriBuilder("https://fitsme1491919531.zendesk.com/api/v2/help_center/articles/search.json?section=115000925985");
+            //UriBuilder forwardUri = new UriBuilder("https://api.github.com/users/octocat");
 
             //forwardUri.Port = 443;
 
@@ -38,12 +38,14 @@ namespace WebApiProxy.Controllers
             //    System.Text.ASCIIEncoding.ASCII.GetBytes(
             //        string.Format("{0}:{1}", "mzol14@gmail.com", "testpassword"))));
 
-
+            // if you comment this out you'll get the trust error
             System.Net.ServicePointManager.ServerCertificateValidationCallback +=
-    (se, cert, chain, sslerror) =>
-    {
-        return true;
-    };
+            (se, cert, chain, sslerror) =>
+            {
+                return true;
+            };
+
+
 
             HttpClient client = new HttpClient();
 
@@ -53,10 +55,6 @@ namespace WebApiProxy.Controllers
             var response = await client.SendAsync(request);
 
             return response;
-
-
-
-            //return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
